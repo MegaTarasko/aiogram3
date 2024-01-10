@@ -1,11 +1,13 @@
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, F
+from aiogram.filters import Command
+
 import asyncio
 from dotenv import load_dotenv
 import os
+
 from utils.commands import set_commands
 from handlers.start import get_start
-from aiogram.filters import Command
-
+from handlers.register import start_register
 
 
 load_dotenv()
@@ -21,6 +23,9 @@ async def start_bot(bot: Bot):
 
 dp.startup.register(start_bot)
 dp.message.register(get_start, Command(commands='start'))
+
+#Регистрируем хендлеры регистрации
+dp.message.register(start_register, F.text=='Зарегестрироваться на сайте')
 
 async def start():
     await set_commands(bot)
