@@ -7,6 +7,7 @@ from handlers.start import get_start
 from aiogram.filters import Command
 
 
+
 load_dotenv()
 
 token = os.getenv('TOKEN')
