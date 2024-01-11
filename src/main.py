@@ -7,7 +7,7 @@ import os
 
 from utils.commands import set_commands
 from handlers.start import get_start
-from State.register import RegisterState
+from state.register import RegisterState
 from handlers.register import start_register, register_name, register_phone
 
 

@@ -1,6 +1,6 @@
 from aiogram import Bot
 from aiogram.types import Message
-from myKeyboards.register_kb import register_keyboard
+from Keyboards.register_kb import register_keyboard
 
 
 
