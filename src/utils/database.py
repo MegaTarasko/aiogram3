@@ -23,6 +23,11 @@ class Database():
         self.cursor.execute(f'INSERT INTO users (user_name, user_phone, telegram_id) VALUES(?,?,?)', (user_name, user_phone, telegram_id))
         self.connection.commit()
 
+    def select_user_id(self, telegram_id):
+        users = self.cursor.execute("SELECT * FROM users WHERE telegram_id = ?", (telegram_id,))
+        return users.fetchone()
+
+
     def __del__(self):
         self.cursor.close()
         self.connection.close()

@@ -7,8 +7,13 @@ from utils.database import Database
 
 
 async def start_register(message: Message, state: FSMContext):
-    await (message.answer(f'Начнем регистрацию \n Как вас зовут?'))
-    await state.set_state(RegisterState.regName)
+    db = Database(os.getenv('DATABASE_NAME'))
+    users = db.select_user_id(message.from_user.id)
+    if (users):
+        await message.answer(f'Вы уже зарегистрированы под именем {users[1]}')
+    else:
+        await (message.answer(f'Начнем регистрацию \n Как вас зовут?'))
+        await state.set_state(RegisterState.regName)
 
 async def register_name(message: Message, state: FSMContext):
     await message.answer(f'привет, пользователь {message.text} \n'
@@ -25,8 +30,8 @@ async def register_phone(message: Message, state: FSMContext):
 
         msg = f'Регистрация успешна, {reg_name} \n\n Телефон - {reg_phone}'
         await message.answer(msg)
-        dp = Database(os.getenv('DATABASE_NAME'))
-        dp.add_user(reg_name, reg_phone, message.from_user.id)
+        db = Database(os.getenv('DATABASE_NAME'))
+        db.add_user(reg_name, reg_phone, message.from_user.id)
         await state.clear()
 
     else:
