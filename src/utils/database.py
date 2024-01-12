@@ -13,8 +13,20 @@ class Database():
                      "id INTEGER PRIMARY KEY, "
                      "user_name TEXT,"
                      "user_phone TEXT,"
-                     "telegram_id TEXT);")
-            self.cursor.execute(query)
+                     "telegram_id TEXT);"
+                     "CREATE TABLE IF NOT EXISTS place("
+                     "id INTEGER PRIMARY KEY,"
+                     "name_place TEXT,"
+                     "place_address TEXT);"
+                     "CREATE TABLE IF NOT EXISTS games("
+                     "id INTEGER PRIMARY KEY,"
+                     "place_id TEXT,"
+                     "data_game TEXT,"
+                     "time_game TEXT,"
+                     "min_player INTEGER,"
+                     "max_player INTEGER,"
+                     "price TEXT)")
+            self.cursor.executescript(query)
             self.connection.commit()
         except sqlite3.Error as Error:
             print("Ошибка регистрации :", Error)
