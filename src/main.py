@@ -11,7 +11,7 @@ from state.register import RegisterState
 from state.create import CreateState
 from handlers.register import start_register, register_name, register_phone
 from filters.CheckAdmin import CheckAdmin
-from handlers.admin.create import create_game, select_place
+from handlers.admin.create import create_game, select_place, select_date
 
 
 load_dotenv()
@@ -35,6 +35,7 @@ dp.message.register(register_phone, RegisterState.regPhone)
 #Регистрируем хендлер с созданием игры
 dp.message.register(create_game, Command(commands='create'), CheckAdmin())
 dp.callback_query.register(select_place, CreateState.place)
+dp.callback_query.register(select_date, CreateState.date)
 
 
 async def start():
