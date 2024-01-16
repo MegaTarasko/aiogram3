@@ -11,7 +11,7 @@ from state.register import RegisterState
 from state.create import CreateState
 from handlers.register import start_register, register_name, register_phone
 from filters.CheckAdmin import CheckAdmin
-from handlers.admin.create import create_game, select_place, select_date
+from handlers.admin.create import create_game, select_place, select_date, select_time, select_maxplayer, select_minplayer, select_price
 
 
 load_dotenv()
@@ -36,6 +36,10 @@ dp.message.register(register_phone, RegisterState.regPhone)
 dp.message.register(create_game, Command(commands='create'), CheckAdmin())
 dp.callback_query.register(select_place, CreateState.place)
 dp.callback_query.register(select_date, CreateState.date)
+dp.callback_query.register(select_time, CreateState.time)
+dp.message.register(select_minplayer, CreateState.minplayer)
+dp.message.register(select_maxplayer, CreateState.maxplayer)
+dp.message.register(select_price, CreateState.price)
 
 
 async def start():

@@ -4,7 +4,7 @@ class CreateState(StatesGroup):
     place = State()
     date = State()
     time = State()
-    minplayrs = State()
-    maxplayrs = State()
+    minplayer = State()
+    maxplayer = State()
     price = State()
     
