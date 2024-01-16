@@ -1,7 +1,9 @@
 from  aiogram import Bot
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
+import os
 from Keyboards.create_kb import place_kb, date_kb, time_kb
+from utils.database import Database
 from state.create import CreateState
 
 
@@ -13,7 +15,7 @@ async def create_game(message: Message, state: FSMContext, bot: Bot):
 async def select_place(call: CallbackQuery, state: FSMContext):
     await call.message.answer(f'вы выбрали место \n'
                               f'Дальше выберите дату: ', reply_markup=date_kb())
-
+    await state.update_data(place=call.data)
     await call.message.edit_reply_markup(reply_markup=None)
     await call.answer()
     await state.set_state(CreateState.date)
@@ -54,4 +56,7 @@ async def select_price(message: Message, state: FSMContext, bot: Bot):
     await bot.send_message(message.from_user.id, f'Отлично, я записал')
     await state.update_data(price=message.text)
     create_data = await state.get_data()
-    print(create_data)
+    create_time = create_data.get('time').split('_')[1]
+    db = Database(os.getenv('DATABASE_NAME'))
+    db.add_game(create_data['place'], create_data['date'], create_time, create_data['minplayer'], create_data['maxplayer'], create_data['price'])
+    await state.clear()

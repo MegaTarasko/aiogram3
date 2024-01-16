@@ -21,7 +21,7 @@ class Database():
                      "CREATE TABLE IF NOT EXISTS games("
                      "id INTEGER PRIMARY KEY,"
                      "place_id TEXT,"
-                     "data_game TEXT,"
+                     "date_game TEXT,"
                      "time_game TEXT,"
                      "min_player INTEGER,"
                      "max_player INTEGER,"
@@ -35,6 +35,10 @@ class Database():
         self.cursor.execute(f'INSERT INTO users (user_name, user_phone, telegram_id) VALUES(?,?,?)', (user_name, user_phone, telegram_id))
         self.connection.commit()
 
+    def add_game(self, place_id, date_game, time_game, min_player, max_player, price):
+        self.cursor.execute(f'INSERT INTO games(place_id, date_game, time_game, min_player, max_player, price) VALUES (?,?,?,?,?,?)', (place_id, date_game, time_game, min_player, max_player, price))
+        self.connection.commit()
+
     def select_user_id(self, telegram_id):
         users = self.cursor.execute("SELECT * FROM users WHERE telegram_id = ?", (telegram_id,))
         return users.fetchone()
@@ -42,6 +46,9 @@ class Database():
     def db_select_all(self, table_name):
         result = self.cursor.execute("SELECT * FROM {}".format(table_name))
         return result.fetchall()
+
+
+
 
 
     def __del__(self):
