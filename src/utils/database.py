@@ -51,8 +51,10 @@ class Database():
         result = self.cursor.execute("SELECT * FROM {}".format(table_name))
         return result.fetchall()
 
-
-
+    def select_games(self, status, date_games):
+        result = self.cursor.execute("SELECT * FROM `games` JOIN `place` on place.id WHERE `status` = '{}' AND `date_game` = '{}'"
+                                     .format(status, date_games))
+        return result.fetchall()
 
 
     def __del__(self):
