@@ -52,8 +52,16 @@ class Database():
         return result.fetchall()
 
     def select_games(self, status, date_games):
-        result = self.cursor.execute("SELECT * FROM `games` JOIN `place` on place.id WHERE `status` = '{}' AND `date_game` = '{}'"
+        result = self.cursor.execute("SELECT * FROM `games` JOIN `place` ON place.id WHERE `status` = '{}' AND `date_game` = '{}'"
                                      .format(status, date_games))
+        return result.fetchall()
+
+    def select_player(self, game_id):
+        result = self.cursor.execute("SELECT * FROM `record_matches` JOIN `users` ON `record_matches`. `user_telegram_id` = `users`.`telegram_id` WHERE `record_matches`.`game_id` = {}".format(game_id))
+        return result.fetchall()
+
+    def check_user(self, game_id, user_id):
+        result = self.cursor.execute("SELECT * FROM `record_matches` WHERE `game_id` = {} AND `user_telegram_id` = {}".format(game_id, user_id))
         return result.fetchall()
 
 
