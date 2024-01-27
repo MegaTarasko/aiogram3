@@ -10,7 +10,7 @@ from handlers.start import get_start
 from state.register import RegisterState
 from state.create import CreateState
 from handlers.register import start_register, register_name, register_phone
-from handlers.profile import view_game, view_game_date
+from handlers.profile import view_game, view_game_date, add_match_plaeyr, delete_match_plaeyr
 from filters.CheckAdmin import CheckAdmin
 from handlers.admin.create import create_game, select_place, select_date, select_time, select_maxplayer, select_minplayer, select_price
 
@@ -44,6 +44,8 @@ dp.message.register(select_price, CreateState.price)
 #Регистрируем хендлер профиля
 dp.message.register(view_game, F.text=='Актуальные игры')
 dp.callback_query.register(view_game_date, F.data.startswith('viewn_date_'))
+dp.callback_query.register(add_match_plaeyr, F.data.startswith('add_match'))
+dp.callback_query.register(delete_match_plaeyr, F.data.startswith('delete_match'))
 
 async def start():
     await set_commands(bot)

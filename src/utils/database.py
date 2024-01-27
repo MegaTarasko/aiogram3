@@ -56,6 +56,21 @@ class Database():
                                      .format(status, date_games))
         return result.fetchall()
 
+    def select_game(self, status, game_id):
+        result = self.cursor.execute("SELECT * FROM `games` JOIN `place` ON place.id WHERE `status` = '{}' AND `games`.`id` = '{}'"
+                                     .format(status, game_id))
+        return result.fetchone()
+
+    def add_user_match(self, game_id, user_telegram_id):
+        self.cursor.execute(f'INSERT INTO record_matches(game_id, user_telegram_id) VALUES (?,?)',
+                            (game_id, user_telegram_id))
+        self.connection.commit()
+
+    def delete_user_match(self, game_id, user_telegram_id):
+        self.cursor.execute(f'DELETE FROM `record_matches` WHERE game_id = ? AND user_telegram_id = ?',
+                            (game_id, user_telegram_id))
+        self.connection.commit()
+
     def select_player(self, game_id):
         result = self.cursor.execute("SELECT * FROM `record_matches` JOIN `users` ON `record_matches`. `user_telegram_id` = `users`.`telegram_id` WHERE `record_matches`.`game_id` = {}".format(game_id))
         return result.fetchall()
